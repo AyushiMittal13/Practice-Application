@@ -1,0 +1,23 @@
+<ul class="thumbnails">
+  <li *ngFor = "let pro of products" style="list-style-type: none;display: inline-block;">
+    <a href="#" class="thumbnail">
+      <img src="favicon.ico" alt="product_image">
+      {{ pro.name }}
+    </a>
+  </li>
+</ul>
+
+
+
+
+<div *ngIf =  "list1">
+  <ul class="list-group">
+      <li class="list-group-item" *ngFor = "let product of products">
+        {{ product.name }}
+        <a href="#"  class="btn btn-danger glyphicon glyphicon-remove btn-xs" 
+            *ngIf="showDelete" style='float:right' (click)="DeleteProduct(product)"></a>
+        <a href="#"  class="btn btn-warning btn-xs" 
+            *ngIf="showUpdate" style='float:right' (click)="UpdateProduct(product)">Update</a>
+      </li>
+    </ul>
+</div>

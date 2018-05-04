@@ -1,20 +1,68 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#" (click)="showList()">Products</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="#" (click)="onCreateProduct()">Create Product</a></li>
+        <li><a href="#" (click)="onDelete()">Delete Product</a></li>
+        <li><a href="#"(click)="onUpdate()">Update Product</a></li>
+      </ul>    
+  </div>
+</nav>
 
+<div class="jumbotron">
+  <h1>Welcome to Products App!</h1>
+</div>
+
+<div *ngIf = "list">
+  <div class="gallery" *ngFor = "let product of products">
+    <a target="blank" href="#">
+      <img src="favicon.ico" alt="" width="500" height="500">
+    </a>
+    <div class="desc">{{product.name}}</div>
+    <a href="#"  class="btn btn-danger glyphicon glyphicon-remove btn-xs" 
+              *ngIf="showDelete" style='float:right' (click)="DeleteProduct(product)"></a>
+    <a href="#"  class="btn btn-warning btn-xs" 
+          *ngIf="showUpdate" style='float:right' (click)="UpdateProduct(product)">Update</a>
+  </div>      
+</div>
+
+<div class="container" *ngIf = "create">
+  <form #createForm="ngForm" (ngSubmit)="CreatedUser(createForm)">
+    <div class="form-group" [ngClass]="{
+      'has-error' : productname.invalid && productname.touched,
+      'has-success' : productname.valid && productname.touched
+      }">
+      <label class="control-label">Name</label>
+      <input ngModel type="text" class="form-control" name="productname" #productname ="ngModel" required>
+      <span class="help-block" *ngIf="productname.invalid && productname.touched">Name is required !</span>
+    </div>
+    <div class="form-group" [ngClass]="{
+      'has-error' : id.invalid && id.touched,
+      'has-success' : id.valid && id.touched
+      }">
+        <label class="control-label">Id</label>
+        <input ngModel type="text" class="form-control" name="id" #id="ngModel" required>
+        <span class="help-block" *ngIf="id.invalid && id.touched">Id is required!</span>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid">Create</button>
+  </form>
+</div>
+
+
+<div class="container" *ngIf = "updateForm">
+  <form #UpdateForm ="ngForm" (ngSubmit)="ProductUpdated(UpdateForm)">
+    <div class="form-group">
+      <label>Name</label>
+      <input ngModel type="text" class="form-control" name="productname" 
+      #productname ="ngModel" [(ngModel)]="productToBeUpdated.name">
+    </div>
+    <div class="form-group">
+        <label>Id</label>
+        <input ngModel type="text" class="form-control" name="id" #id="ngModel"
+        [(ngModel)]="productToBeUpdated.id">
+    </div>
+    <button type="submit" class="btn btn-success">Update</button>
+  </form>
+ </div>
